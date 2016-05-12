@@ -8,14 +8,14 @@ class Curl
         CURLOPT_RETURNTRANSFER => true,
     );
 
-    public function __construct()
+    public function __construct($url = '')
     {
-        $this->init();
+        $this->init($url);
     }
 
-    public function init()
+    public function init($url)
     {
-        $this->handle = curl_init();
+        $this->handle = curl_init($url);
     }
 
     public function set_options($options)
@@ -25,7 +25,14 @@ class Curl
         }
     }
 
-    public function post($header, $body)
+    public function get($url)
+    {
+        $this->init($url);
+        curl_setopt_array($this->handle, $this->options);
+        return curl_exec($this->handle);
+    }
+
+    public function post($body, $header = array())
     {
         $this->set_options(array(
             CURLOPT_POST       => true,
@@ -34,13 +41,24 @@ class Curl
         ));
         curl_setopt_array($this->handle, $this->options);
 
-        $result = curl_exec($this->handle);
+        return curl_exec($this->handle);
+    }
 
-        $this->close();
+    public function get_error()
+    {
+        return array(
+            'No'    => curl_errno($this->handle),
+            'Error' => curl_error($this->handle),
+        );
     }
 
     public function close()
     {
         curl_close($this->handle);
+    }
+
+    public function __destruct()
+    {
+        $this->close();
     }
 }
