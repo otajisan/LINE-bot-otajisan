@@ -1,8 +1,6 @@
 <?php
 
-require_once __DIR__.'/Curl.php';
-
-use Curl;
+//use Curl;
 
 class LINEService
 {
@@ -10,6 +8,7 @@ class LINEService
 
     public function receive_message()
     {
+        echo ">>>> message received.";
     }
 
     public function post_message()
