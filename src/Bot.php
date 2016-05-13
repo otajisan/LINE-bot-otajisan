@@ -12,6 +12,10 @@ class Bot
         $message = $service->create_message($data, $bijo);
         $service->post_message($data, $message);
         $service->post_image($data, $bijo);
+        // TODO
+        $movie_name = 'video.mp4';
+        $image_name = '001.jpg';
+        $service->post_movie($data, $movie_name, $image_name);
     }
 
     protected function get_bijo()

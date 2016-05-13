@@ -72,6 +72,31 @@ class LINEService
         );
     }
 
+    public function post_movie($data, $video_name, $thumb_name)
+    {
+        $header = $this->create_header();
+        $curl = new Curl(self::TRIAL_API_URL.'/events');
+        $body = json_encode(array(
+            'to'        => array($data['content']['from']), // メッセージをくれた人に返す
+            'toChannel' => self::TO_CHANNEL_SEND_MSG,
+            'eventType' => self::EVENT_TYPE_SEND_MSG,
+            'content'   => array(
+                'contentType' => 3,
+                'toType'      => 1,
+                'originalContentUrl' => "{$this->conf['movie_url_base']}/{$video_name}",
+                'previewImageUrl'    => "{$this->conf['movie_url_base']}/{$thumb_name}",
+            ),
+
+        ));
+        $result = $curl->post($body, $header);
+        $error = $curl->get_error();
+
+        return array(
+            'Result' => $result,
+            'Error'  => $error,
+        );
+    }
+
     public function create_message($data)
     {
         $message = 'ウホウホ';
