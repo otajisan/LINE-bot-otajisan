@@ -18,13 +18,7 @@ class Bot
     {
         $curl = new Curl();
         $result = $curl->get(self::BIJO_RSS_URL);
-//        error_log(print_r($result, 1));
-//        $result = json_decode($result, true);
-        preg_match_all('/<img.*src\s*=\s*[\"|\'](.*?)[\"|\'].*>/i', $result, $matches);
-        preg_match_all('/\\\\u003cimg.*?src=(["\'])(.+?)\1.*?>/i', $result, $matches);
-//        preg_match_all("/img(.+?)/", $result, $matches);
-        preg_match_all('/<img.*?src=\\\\")(.*?)(\\\\".*?>/', $result, $matches);
-        preg_match_all('/img src\\u003d\\">/', $result, $matches);
+        preg_match_all('/img src">/', $result, $matches);
         //        error_log(print_r($matches, 1));
         $result = json_decode($result, true);
         $entries = $result['responseData']['feed']['entries'];
